@@ -20,12 +20,14 @@ func move_to_point(point : Vector3, delta : float):
 	global_position.z = move_toward(global_position.z,point.z,delta)
 
 func _on_area_3d_body_exited(body):
-	if body is Player:
-		body.panic -= 1
-		body.isPanicing = false
+#	if body is Player:
+#		body.panic -= 1
+#		body.isPanicing = false
+	pass
 
 
 func _on_area_3d_body_entered(body):
-	if body is Player:
-		body.panic += 1
-		body.isPanicing = true
+#	if body is Player:
+#		body.panic += 1
+#		body.isPanicing = true
+	pass

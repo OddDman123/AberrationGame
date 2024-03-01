@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://coqmy4cv574xd"]
+[gd_scene load_steps=6 format=3 uid="uid://coqmy4cv574xd"]
 
 [ext_resource type="Script" path="res://Boy.gd" id="1_upamt"]
 
@@ -7,6 +7,10 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_wccr5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_k3bg6"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vi3fq"]
+height = 1.0
+radius = 0.75
 
 [node name="Boy" type="CharacterBody3D"]
 script = ExtResource("1_upamt")
@@ -20,3 +24,17 @@ shape = SubResource("SphereShape3D_wccr5")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.7, 0.417782, 0.0969471, 0)
 mesh = SubResource("BoxMesh_k3bg6")
+
+[node name="ItemSearch" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemSearch"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.5, 0, 0)
+shape = SubResource("CylinderShape3D_vi3fq")
+
+[node name="ItemPos" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[connection signal="body_entered" from="ItemSearch" to="." method="_on_item_search_body_entered"]
+[connection signal="body_exited" from="ItemSearch" to="." method="_on_item_search_body_exited"]

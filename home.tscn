@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://PlayerUI.gd" id="3_t8h3a"]
 [ext_resource type="Texture2D" uid="uid://c0ljukrps2elc" path="res://eye.png" id="3_vcq2v"]
 [ext_resource type="Script" path="res://item.gd" id="5_hgldn"]
-[ext_resource type="Resource" uid="uid://4s3x2qyue4hq" path="res://idk.tres" id="7_5qel8"]
+[ext_resource type="Resource" uid="uid://b6qtkro5eghfm" path="res://idk.tres" id="7_5qel8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fvt4h"]
 
@@ -52,9 +52,6 @@ fill_from = Vector2(1, 0)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_c101a"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ya335"]
-radius = 2.5
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rp5it"]
 distance_fade_mode = 2
 distance_fade_min_distance = 2.0
@@ -64,6 +61,9 @@ distance_fade_max_distance = 3.0
 distance_fade_mode = 2
 distance_fade_min_distance = 1.0
 distance_fade_max_distance = 3.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_r3x6p"]
+left_to_right = 1.0
 
 [node name="Home" type="Node3D"]
 
@@ -123,22 +123,17 @@ value = 60.0
 texture_under = SubResource("GradientTexture2D_taqb3")
 texture_progress = SubResource("GradientTexture2D_6nljj")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." node_paths=PackedStringArray("interactArea")]
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 8, 2.5, 0.5)
+collision_layer = 3
 script = ExtResource("5_hgldn")
 item_effect = ExtResource("7_5qel8")
-interactArea = NodePath("Area3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("CapsuleShape3D_v32gp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 mesh = SubResource("CapsuleMesh_c101a")
-
-[node name="Area3D" type="Area3D" parent="StaticBody3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/Area3D"]
-shape = SubResource("CylinderShape3D_ya335")
 
 [node name="Furniture" type="Node3D" parent="."]
 
@@ -163,10 +158,33 @@ use_collision = true
 size = Vector3(16, 0.002, 6)
 material = SubResource("StandardMaterial3D_p5os5")
 
+[node name="Floor3" type="CSGBox3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, -8.5)
+use_collision = true
+size = Vector3(8, 0.002, 11)
+material = SubResource("StandardMaterial3D_p5os5")
+
+[node name="Floor4" type="CSGBox3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 2, -8.5)
+use_collision = true
+size = Vector3(2, 0.002, 11)
+material = SubResource("StandardMaterial3D_p5os5")
+
+[node name="Floor5" type="CSGBox3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 2, -10.5)
+use_collision = true
+size = Vector3(2, 0.002, 7)
+material = SubResource("StandardMaterial3D_p5os5")
+
 [node name="Floor2" type="CSGBox3D" parent="Furniture"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -1, -7.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -1.5, -7.5)
 use_collision = true
 size = Vector3(18, 0.002, 35)
+
+[node name="stairs" type="CSGMesh3D" parent="Furniture"]
+transform = Transform3D(-2.18557e-07, 0, -2, 0, 4, 0, 5, 0, -8.74228e-08, 8.5, 0, -5.5)
+use_collision = true
+mesh = SubResource("PrismMesh_r3x6p")
 
 [connection signal="body_entered" from="Enemy/Area3D" to="Enemy" method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Enemy/Area3D" to="Enemy" method="_on_area_3d_body_exited"]
