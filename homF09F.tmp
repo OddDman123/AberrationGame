@@ -1,0 +1,137 @@
+[gd_scene load_steps=18 format=3 uid="uid://ig7b6xhdlm5h"]
+
+[ext_resource type="PackedScene" uid="uid://coqmy4cv574xd" path="res://boy.tscn" id="1_nw7qu"]
+[ext_resource type="Script" path="res://PlayerCam.gd" id="2_bhrn5"]
+[ext_resource type="Script" path="res://Enemy.gd" id="3_ofmkd"]
+[ext_resource type="Script" path="res://PlayerUI.gd" id="3_t8h3a"]
+[ext_resource type="Texture2D" uid="uid://c0ljukrps2elc" path="res://eye.png" id="3_vcq2v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p5os5"]
+distance_fade_mode = 2
+distance_fade_min_distance = 1.0
+distance_fade_max_distance = 3.0
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fvt4h"]
+
+[sub_resource type="Sky" id="Sky_yinca"]
+sky_material = SubResource("ProceduralSkyMaterial_fvt4h")
+
+[sub_resource type="Environment" id="Environment_5eyee"]
+background_mode = 2
+sky = SubResource("Sky_yinca")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rp5it"]
+distance_fade_mode = 2
+distance_fade_min_distance = 2.0
+distance_fade_max_distance = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_41e1q"]
+albedo_texture = ExtResource("3_vcq2v")
+
+[sub_resource type="SphereMesh" id="SphereMesh_18eas"]
+material = SubResource("StandardMaterial3D_41e1q")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hxkax"]
+
+[sub_resource type="Gradient" id="Gradient_ixhts"]
+offsets = PackedFloat32Array(0.853933, 1)
+colors = PackedColorArray(0.5, 0.5, 0.5, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_taqb3"]
+gradient = SubResource("Gradient_ixhts")
+width = 640
+height = 48
+fill_from = Vector2(1, 0)
+
+[sub_resource type="Gradient" id="Gradient_0prj1"]
+offsets = PackedFloat32Array(0.955056, 0.977528, 1)
+colors = PackedColorArray(0.566667, 0, 0.0672944, 1, 1, 1, 1, 1, 0.566667, 0, 0.0672944, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6nljj"]
+gradient = SubResource("Gradient_0prj1")
+width = 640
+height = 48
+fill_from = Vector2(1, 0)
+
+[node name="Home" type="Node3D"]
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, 0)
+use_collision = true
+size = Vector3(16, 0.002, 6)
+material = SubResource("StandardMaterial3D_p5os5")
+
+[node name="Floor2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -1, -7.5)
+use_collision = true
+size = Vector3(18, 0.002, 35)
+
+[node name="Boy" parent="." instance=ExtResource("1_nw7qu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0.5)
+
+[node name="PlayerCam" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0.5, 5, 3.5)
+script = ExtResource("2_bhrn5")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-3.09086e-08, -0.707107, 0.707107, -3.09086e-08, 0.707107, 0.707107, -1, 0, -4.37114e-08, 15, 5, -2)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5eyee")
+
+[node name="Wall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 3.5, 2)
+use_collision = true
+size = Vector3(1, 3, 2)
+material = SubResource("StandardMaterial3D_rp5it")
+
+[node name="Wall2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 3.5, -2)
+use_collision = true
+size = Vector3(1, 3, 2)
+
+[node name="Wall3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 4.5, 0)
+size = Vector3(1, 1, 2)
+
+[node name="Enemy" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.5, -8)
+script = ExtResource("3_ofmkd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy"]
+mesh = SubResource("SphereMesh_18eas")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy"]
+shape = SubResource("SphereShape3D_hxkax")
+
+[node name="Area3D" type="Area3D" parent="Enemy"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="PlayerUI" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_t8h3a")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/PlayerUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.79
+anchor_right = 0.5
+anchor_bottom = 0.79
+offset_left = -320.0
+offset_top = -23.92
+offset_right = 320.0
+offset_bottom = 24.08
+value = 60.0
+texture_under = SubResource("GradientTexture2D_taqb3")
+texture_progress = SubResource("GradientTexture2D_6nljj")
+
+[connection signal="body_entered" from="Enemy/Area3D" to="PlayerCam" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Enemy/Area3D" to="Boy" method="_on_area_3d_body_exited"]

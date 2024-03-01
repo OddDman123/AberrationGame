@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://coqmy4cv574xd"]
+
+[ext_resource type="Script" path="res://Boy.gd" id="1_upamt"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_r55yq"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wccr5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_k3bg6"]
+
+[node name="Boy" type="CharacterBody3D"]
+script = ExtResource("1_upamt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_r55yq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_wccr5")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.7, 0.417782, 0.0969471, 0)
+mesh = SubResource("BoxMesh_k3bg6")
