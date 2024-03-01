@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://v0hl65uqe2qx"]
+
+[ext_resource type="Script" path="res://Vacuum.gd" id="1_ujiey"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c4kvc"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_ifxtj"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8rere"]
+points = PackedVector3Array(0, 0, -0.5, 0, 0, 0.5, 0, 1, -0.5, 0, 1, 0.5, 2, 1, 1.5, 2, 1, -1.5, 2, 0, -1.5, 2, 0, 1.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gwn2b"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_ujiey")
+
+[node name="Pack" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+mesh = SubResource("BoxMesh_c4kvc")
+
+[node name="Nozzle" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.5, 0, 0)
+mesh = SubResource("PrismMesh_ifxtj")
+
+[node name="SuckIn" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SuckIn"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_8rere")
+
+[node name="In" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="In"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+shape = SubResource("SphereShape3D_gwn2b")

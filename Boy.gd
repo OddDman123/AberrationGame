@@ -31,8 +31,12 @@ func _physics_process(delta):
 				nearItems.erase(nearItems[0])
 				hasItem = true
 		else:
-			heldItem.item_effect.effect()
-		
+			heldItem.itemUse = !heldItem.itemUse
+	
+	if Input.is_action_just_pressed("drop"):
+		heldItem = null
+		hasItem = false
+	
 	if hasItem:
 		heldItem.global_position = item_pos.global_position
 	move_and_slide()
